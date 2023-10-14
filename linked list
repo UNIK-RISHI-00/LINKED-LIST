@@ -1,0 +1,207 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node * nextadd;
+}*head;
+
+void display()
+    {
+        if (head == NULL)
+        {
+            printf("LINKED LIST IS EMPTY");
+        }
+        struct node *ptr =head;
+        while(ptr != NULL)
+        {
+            printf("DATA=%d\n",ptr->data);
+            ptr=ptr->nextadd;
+        }
+        printf("\n");
+
+    }
+
+    void count_node()
+    {
+        int count=0;
+        if(head==NULL)
+        {
+            printf("LINKED LIST IS EMPTY");
+        }
+        struct node * ptr=head;
+        while(ptr!=NULL)
+        {
+            count++;
+            ptr=ptr->nextadd;
+        }
+        printf("TOTAL NUMBER OF NODES=%d",count);
+        printf("\n");
+    }
+
+    void add_at_beg()
+    {
+        struct node *temp;
+        temp=(struct node*)malloc(sizeof(struct node));
+        printf("ENTER DATA YOU WANT TO INSEERT: ");
+        scanf("%d",&temp->data);
+        temp->nextadd=head;
+        head=temp;   
+    }
+    void add_at_end()
+    {
+        struct node *ptr,*temp;
+        ptr=head;
+        temp=(struct node*)malloc(sizeof(struct node));
+        printf("ENTER DATA YOU WANT TO INSEERT: ");
+        scanf("%d",&temp->data);
+        temp->nextadd=NULL;
+
+        while(ptr->nextadd != NULL)
+        {
+            ptr=ptr->nextadd;
+        }
+        ptr->nextadd=temp;
+    }
+
+     void add_at_pos()
+    {
+    printf("\n");
+
+        struct node * ptr =head;
+        struct node * temp= (struct node*)malloc(sizeof(struct node));
+        printf("ENTER DATA YOU WANT TO INSEERT: ");
+        scanf("%d",&temp->data);
+        temp->nextadd=NULL;
+
+        int pos;
+        printf("ENTER POSITION YOU WANT TO ADD: ");
+        scanf("%d",&pos);
+
+        if (pos == 1) {
+        // Adding at the first position
+        temp->nextadd = head;
+        head = temp;
+        return;
+    }
+
+        pos--;
+        while(pos > 1)
+        {
+            ptr=ptr->nextadd;
+            pos--;
+        }
+        temp->nextadd=ptr->nextadd;
+        ptr->nextadd=temp;
+    }
+
+    void del_first()
+{
+    printf("\n");
+    if (head == NULL)
+    {
+        printf("LINKED LIST IS ALREADY EMPTY");
+    }
+    else
+    {
+        struct node *temp = head;
+        head = head->nextadd;
+        free(temp);
+    }
+}
+    void del_last()
+    {
+        printf("\n");
+        struct node*ptr=head;
+        while (ptr->nextadd ->nextadd !=NULL)
+        {
+            ptr=ptr->nextadd;
+        }
+        free(ptr->nextadd);
+        ptr->nextadd=NULL;
+    }
+
+    void del_at_pos()
+    {
+       struct node *ptr,*temp;
+       int i,pos;
+       printf("ENTER POSITION YOU WANT TO DELETE:");
+       scanf("%d",&pos);
+       ptr=head;
+       for(i=0;i<pos;i++)
+       {
+           temp=ptr;
+           ptr=ptr->nextadd;
+        }
+        temp->nextadd=ptr->nextadd;
+        free(ptr);
+    }
+
+int main()
+{
+    head=(struct node*)malloc(sizeof(struct node));
+    printf("ENTER DATA FOR HEAD: \n");
+    scanf("%d", &head->data);
+    head->nextadd=NULL;
+    struct node * ptr;
+    ptr=head;
+
+    int n;
+    printf("ENTER NUMBER OF NODE YOU WANT TO CREATE:");
+    scanf("%d",&n);
+    printf("\n");
+
+    for(int i=1;i<=n;i++)
+    {
+        struct node * newnode=(struct node*)malloc(sizeof(struct node));
+        printf("Enter data for node %d: ", i);
+        scanf("%d", &newnode->data);
+        newnode->nextadd=NULL;
+
+        ptr->nextadd=newnode;
+        ptr=newnode;
+
+    }
+    int choice=0;
+    while(choice!=9)
+    {
+        printf("\n\n*********Main Menu*********\n");
+        printf("\nChoose one option from the following list ...\n"); 
+        printf("\n===============================================\n"); 
+        printf("\n1.DISPLAY NODES\n2.NUMBER OF NODES\n3.INSERTION AT BEGINNING\n4.INSERTION AT LAST\n5.INSERTION AT CERTAIN POSITION\n6.DELETION AT BEGINNING\n7.DELETION AT LAST\n8.DELETION AT CERTAIN POSITION");
+        printf("\nENTER YOUR CHOICES?\n");
+        scanf("\n%d",&choice);  
+        switch(choice)  
+        {  
+            case 1:  
+            display();      
+            break;  
+            case 2:  
+            count_node();         
+            break;
+            case 3:
+            add_at_beg();
+            break;
+            case 4:
+            add_at_end();
+            break;
+            case 5:
+            add_at_pos();
+            break;
+            case 6:
+            del_first();
+            break;
+            case 7:
+            del_last();
+            break;
+            case 8:
+            del_at_pos();
+            break;
+            default:  
+            printf("Please enter valid choice..");  
+        }
+    }
+
+    return 0;
+}
